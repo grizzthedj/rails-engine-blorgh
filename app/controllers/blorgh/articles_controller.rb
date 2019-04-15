@@ -52,11 +52,15 @@ module Blorgh
       # Use callbacks to share common setup or constraints between actions.
       def set_article
         @article = Article.find(params[:id])
+
+        if params[:action] == "edit"
+          @article.author_name = Blorgh.author_class.find(@article.author_id).name
+        end
       end
 
       # Only allow a trusted parameter "white list" through.
       def article_params
-        params.require(:article).permit(:title, :text)
+        params.require(:article).permit(:title, :text, :author_name)
       end
   end
 end
